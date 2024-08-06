@@ -1,0 +1,19 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+	<head>
+    <title>TAP | {% block title %}{% endblock %}</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		{% tailwind_css %}
+		{% block head %}{% endblock %}
+	</head>
+
+	<body class="bg-zinc-300 font-fars">
+		{% include "partials/header.html" %}
+		{% include "partials/navigation.html" %}
+		{% block content %}{% endblock %}
+		{% include "partials/footer.html" %}
+	</body>
+</html>

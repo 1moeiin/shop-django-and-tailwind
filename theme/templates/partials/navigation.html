@@ -1,0 +1,45 @@
+{% load static %}
+<div class="relative">
+    <div class="absolute flex w-full h-52 top-[-208px] backdrop-blur-sm items-center justify-center">
+        <a href="{% url 'shop:main' %}">
+            <img src="{% static 'img/logoTAP.png' %}" alt="logo" class="w-72">
+        </a>
+    </div>
+    <div class="w-full h-16 flex bg-zinc-900 justify-between items-center">
+        <div class="bg-zinc-900 h-full flex w-1/3">
+            <ul class="w-full h-full flex justify-around items-center text-white">
+                <li class="group relative bg-zinc-900 h-full w-full flex flex-col items-center justify-center hover:text-black">
+                    <a href="{% url 'shop:main' %}" class="z-10">صفحه اصلی</a>
+                    <div class="w-full absolute bottom-0 h-0 bg-zinc-600 group-hover:h-full transition-all duration-300 shadow-xl shadow-zinc-600"></div>
+                </li>
+                <li class="group relative bg-zinc-900 h-full w-full flex flex-col items-center justify-center hover:text-black">
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'cart:cart_detail' %}" class="z-10">سبد خرید</a>
+                    {% else %}
+                        <a href="{% url 'shop:login' %}" class="z-10">ثبت نام</a>
+                    {% endif %}
+                    <div class="w-full absolute bottom-0 h-0 bg-zinc-600 group-hover:h-full transition-all duration-300 shadow-xl shadow-zinc-600"></div>
+                </li>
+                <li class="group relative bg-zinc-900 h-full w-full flex flex-col items-center justify-center hover:text-black">
+                    <a href="{% url 'shop:products_list' %}" class="z-10">لیست محصولات</a>
+                    <div class="w-full absolute bottom-0 h-0 bg-zinc-600 group-hover:h-full transition-all duration-300 shadow-xl shadow-zinc-600"></div>
+                </li>
+                <li class="group relative bg-zinc-900 h-full w-full flex flex-col items-center justify-center hover:text-black">
+                    <a href="#" class="z-10">درباره ما</a>
+                    <div class="w-full absolute bottom-0 h-0 bg-zinc-600 group-hover:h-full transition-all duration-300 shadow-xl shadow-zinc-600"></div>
+                </li>
+                <li class="group relative bg-zinc-900 h-full w-full flex flex-col items-center justify-center hover:text-black">
+                    <a href="{% url 'shop:ticket' %}" class="z-10">ارتباط با ما</a>
+                    <div class="w-full absolute bottom-0 h-0 bg-zinc-600 group-hover:h-full transition-all duration-300 shadow-xl shadow-zinc-600"></div>
+                </li>
+            </ul>
+        </div>
+        <div class="w-1/3 ml-12 flex items-center justify-center">
+            <form method="get" action="{% url 'shop:search_post' %}" class="w-full flex justify-end">
+                {% csrf_token %}
+                <input type="submit" value="جستجو" class="rounded-r-full bg-zinc-800 text-white p-2 hover:cursor-pointer transition-all ease-in-out duration-200 hover:bg-zinc-500 hover:text-zinc-800 shadow-lg shadow-zinc-700/50">
+                <input type="text" name="query" required placeholder=". . ." class="rounded-l-full bg-zinc-700 w-2/3 border-none placeholder-gray-300 focus:ring-0 shadow-lg shadow-zinc-700/50">
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Search{% endblock %}
+{% block content %}
+    {% if query %}
+        <p>نتایج جستجو برای {{ query }}</p>
+        {% for post in results %}
+            <br>
+            <a href="{{ post.get_absolute_url }}">{{ post }}</a>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

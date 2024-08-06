@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}ثبت نام{% endblock %}
+{% block content %}
+
+    <div class="w-full h-screen relative flex justify-center"> 
+        <div class="absolute w-full">
+            <img src="{% static 'img/black-car-4k-wnfjwxcbybpwbs08.jpg' %}" alt="wall">
+        </div>
+        <div class="w-1/4 h-[500px] rounded-xl bg-zinc-500/30 absolute mt-64 backdrop-blur-sm">
+            <form method="post" class="w-full flex flex-col items-center text-white gap-8 mt-16">
+                {% csrf_token %}
+                <div class="flex items-center">
+                    <label for="id_username" class="rounded-r-full bg-zinc-800 p-3 shadow-lg shadow-zinc-700/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-9">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg> 
+                    </label>
+                    <input type="text" name="username" maxlength="150" required="" placeholder="نام کاربری" aria-describedby="id_username_helptext" id="id_username" class="rounded-l-full w-4/5 bg-zinc-700 border-none p-4 placeholder-gray-300 focus:ring-0 shadow-lg shadow-zinc-700/50">
+                </div>
+        
+                <div class="flex items-center">
+                    <label for="id_email" class="rounded-r-full bg-zinc-800 p-3 shadow-lg shadow-zinc-700/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                        </svg>                          
+                    </label>
+                    <input type="email" name="email" maxlength="254" id="id_email" placeholder="ایمیل" class="rounded-l-full w-4/5 bg-zinc-700 border-none p-4 placeholder-gray-300 focus:ring-0 shadow-lg shadow-zinc-700/50">
+                </div>
+        
+                <div class="flex items-center">
+                    <label for="id_password" class="rounded-r-full bg-zinc-800 p-3 shadow-lg shadow-zinc-700/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" />
+                        </svg>
+                    </label>
+                    <input type="password" name="password" maxlength="100" required="" id="id_password" placeholder="گذرواژه" class="rounded-l-full w-4/5 bg-zinc-700 border-none p-4 placeholder-gray-300 focus:ring-0 shadow-lg shadow-zinc-700/50">
+                </div>
+        
+                <div class="flex items-center">
+                    <label for="id_password2" class="rounded-r-full bg-zinc-800 p-3 shadow-lg shadow-zinc-700/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" />
+                        </svg>
+                    </label>
+                    <input type="password" name="password2" maxlength="100" required="" id="id_password2" placeholder="تکرار گذرواژه" class="rounded-l-full w-4/5 bg-zinc-700 border-none p-4 placeholder-gray-300 focus:ring-0 shadow-lg shadow-zinc-700/50">
+                </div>
+        
+                <input type="submit" value="ثبت" class="bg-zinc-800 p-4 rounded-lg w-20 hover:bg-zinc-900 hover:cursor-pointer hover:shadow-xl hover:shadow-zinc-500/50">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+

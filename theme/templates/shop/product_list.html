@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Products{% endblock %}
+{% load humanize %}
+{% block content %}
+    <div class="w-full h-36 flex items-center justify-center">
+        {% if category %}
+            <h2 class="text-5xl font-medium animate-fade-down animate-once animate-duration-1000 animate-ease-linear">لیست محصولات بر اساس {{ category.name }}</h2>
+        {% else %}
+            <h2 class="text-5xl font-medium animate-fade-down animate-once animate-duration-1000 animate-ease-linear">لیست محصولات</h2>
+        {% endif %}
+    </div>
+    <div class="w-full flex flex-col">
+        <aside class="w-1/3 mt-12 mr-8">
+            <div>
+                <ul class="flex gap-8 justify-center place-items-center">
+                    <li class="text-xl font-semibold">براساس :</li>
+                    <li class="p-3 font-semibold bg-zinc-400 text-black rounded-xl hover:bg-black hover:text-zinc-300"><a href="{% url 'shop:products_list' %}">همه</a></li>
+                    {% for ct in categories %}
+                    <li class="p-3 font-semibold bg-zinc-400 text-black rounded-xl hover:bg-black hover:text-zinc-300"><a href="{{ ct.get_absolute_url }}">{{ ct.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </aside>
+        <section class="grid grid-cols-4 gap-8 w-3/4 mt-12 mx-auto">
+            {% for post in products %}
+                {% if post.inventory == 0 %}
+                    <a href="{{ post.get_absolute_url }}">
+                        <div class="group flex flex-col transition-all shadow-lg shadow-gray-900/80 hover:shadow-2xl hover:shadow-black hover:w-full hover:h-[580px] bg-zinc-200 rounded-xl w-11/12 h-[550px] justify-between animate-fade-down animate-once animate-duration-1000 animate-ease-linear">
+                            <div class="">
+                                <img src="{{ post.images.first.image_file.url }}" alt="{{ post.images.first.title }}" class="object-cover w-11/12 mx-auto">
+                            </div>
+                            <div class="text-center mb-16">
+                                <h3 class="font-bold text-2xl group-hover:text-gray-700">{{ post.title }}</h3>
+                                <p class="my-4 mx-4 line-clamp-1 group-hover:text-gray-800">{{ post.description }}</p>
+                                <h3 class="text-6xl text-zinc-700">ناموجود</h3>
+                            </div>
+                        </div>
+                    </a>
+                {% else %}
+                <a href="{{ post.get_absolute_url }}">
+                    <div class="group flex flex-col transition-all shadow-lg shadow-gray-900/80 hover:shadow-2xl hover:shadow-black hover:w-full hover:h-[580px] bg-zinc-200 rounded-xl w-11/12 h-[550px] justify-between animate-fade-down animate-once animate-duration-1000 animate-ease-linear">
+                        <div class="group-hover:transition-all group-hover:duration-300 group-hover:ease-in-out rotate-0 group-hover:rotate-12 mt-8">
+                            <img src="{{ post.images.first.image_file.url }}" alt="{{ post.images.first.title }}" class="object-cover w-11/12 mx-auto">
+                        </div>
+                        <div class="text-center mb-2">
+                            <h3 class="font-bold text-2xl group-hover:text-gray-700">{{ post.title }}</h3>
+                            <p class="my-4 mx-4 line-clamp-1 group-hover:text-gray-800">{{ post.description }}</p>
+                            {% if post.off == 0 %}
+                                <p class="my-4 mx-0 text-2xl font-semibold group-hover:text-green-600">{{ post.price|intcomma:0 }} تومان</p>
+                            {% elif post.off != 0 %}
+                                <p class="line-through decoration-red-600 decoration-4 my-0 mx-0 text-2xl font-semibold">{{ post.price|intcomma:0 }} تومان</p>
+                                <p class="my-0 mx-0 text-xl font-medium group-hover:text-green-600">{{ post.new_price|intcomma:0 }} تومان</p>
+                            {% endif %}
+                            <button type="button" class="font-bold my-4 bg-transparent transition-all ease-in-out duration-200 p-3 rounded-xl bg-zinc-400 group-hover:text-white group-hover:bg-black" id="add-cart">اضافه کردن به سبد خرید</button>
+                        </div>
+                    </div>
+                </a>
+                {% endif %}
+            {% endfor %}
+            </section>
+    </div>
+
+    {% include 'partials/paginator.html' with page=products %}
+{% endblock %}

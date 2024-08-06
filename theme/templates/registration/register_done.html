@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}ورود{% endblock %}
+{% block content %}
+
+    <h1>{{ user }} عزیز ثبت نام شما با موفقیت انجام شد</h1>
+    <a href="{% url 'shop:login' %}">ورود</a>
+
+{% endblock %}
+

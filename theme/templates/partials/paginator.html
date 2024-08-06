@@ -1,0 +1,30 @@
+<div class="w-full flex justify-center gap-6 my-20 z-50">
+    {% if page.has_previous %}
+        <a href="?page={{ page.previous_page_number }}" class="bg-black flex items-center p-3 rounded-lg text-zinc-400  hover:bg-zinc-500 hover:text-black transition-all duration-500">« صفحه قبل</a>
+
+        {% if page.number > 3 %}
+            <a href="?page=1" class="bg-black flex items-center p-3 rounded-lg text-zinc-400 hover:bg-zinc-500 hover:text-black transition-all duration-500">1</a>
+            {% if page.number > 4 %}
+                <span>...</span>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+    {% for num in page.paginator.page_range %}
+        {% if page.number == num %}
+            <a href="?page={{ num }}" class="bg-zinc-500 flex items-center p-2 border-2 border-zinc-700 rounded-lg text-zinc-900">{{ num }}</a>
+        {% elif num > page.number|add:'-3' and num < page.number|add:'3' %}
+            <a href="?page={{ num }}" class="bg-black flex items-center p-3 rounded-lg text-zinc-400 hover:bg-zinc-500 hover:text-black transition-all duration-500">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page.has_next %}
+        {% if page.number < page.paginator.num_pages|add:'-3' %}
+            <span>...</span>
+            <a href="?page={{ page.paginator.num_pages }}" class="bg-black flex items-center p-3 rounded-lg text-zinc-400 hover:bg-zinc-500 hover:text-black transition-all duration-500">{{ page.paginator.num_pages }}</a>
+        {% elif page.number < page.paginator.num_pages|add:'-2' %}
+            <a href="?page={{ page.paginator.num_pages }}" class="bg-black flex items-center p-3 rounded-lg text-zinc-400 hover:bg-zinc-500 hover:text-black transition-all duration-500">{{ page.paginator.num_pages }}</a>
+        {% endif %}
+        <a href="?page={{ page.next_page_number }}" class="bg-black flex items-center p-3 rounded-lg text-zinc-400 hover:bg-zinc-500 hover:text-black transition-all duration-500">صفحه بعدی »</a>
+    {% endif %}
+</div>

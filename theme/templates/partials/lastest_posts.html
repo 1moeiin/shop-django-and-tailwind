@@ -1,0 +1,6 @@
+<div>
+    <h2>آخرین پست ها</h2>
+    {% for lp in l_posts %}
+        <a href="{{ lp.get_absolute_url }}">{{ lp.title }}</a>
+    {% endfor %}
+</div>

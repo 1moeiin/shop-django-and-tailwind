@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load shop_tags %}
+{% load static %}
+{% block title %}Main Page{% endblock %}
+{% block content %}
+
+<div>
+    <div class="relative">
+        <img src="{% static 'img/2870372_14990.svg' %}" alt="background_image" class="-rotate-90">
+        <img src="{% static 'img/Picsart_24-02-28_22-02-17-277.png' %}" alt="main_logo" class="absolute w-96 h-96 top-20 left-20 shadow-2xl p-0 rounded-full shadow-zinc-900 animate-rotate-y animate-twice">
+        <section class="absolute top-44 right-96 w-[690px] h-[700px] bg-zinc-100 text-center flex flex-col gap-4">
+            <div class="mt-32">
+                <h3>YOUR POWERFUL AUTO</h3>
+            </div>
+            <div>
+                <h1 class="text-6xl font-semibold">HIGH-CLASS CAR PARTS</h1>
+            </div>
+            <div>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laboriosam illum magni blanditiis magnam Lorem ipsum dolor sit amet.</p>
+            </div>
+            <div class="mt-4">
+                <input type="button" value="SHOP NOW" class="bg-zinc-900 rounded-lg w-32 h-12 text-white font-semibold">
+            </div>
+        </section>
+    </div>
+    <div class="w-full h-20 bg-zinc-800 content-center">
+        <ul class="flex w-10/12 mx-auto justify-around">
+            <li class="justify-items-start flex items-center gap-3">
+                <div class="text-left">
+                    <h3 class="text-zinc-100 font-semibold">PAYMENT</h3>
+                    <p class="text-zinc-500">Lorem ipsum dolor sit amet</p>
+                </div>
+                <div class="text-white text-4xl border-4 border-zinc-500 w-16 h-16 rounded-full text-center font-semibold content-center">4</div>
+            </li>
+            <li class="justify-items-start flex items-center gap-3">
+                <div class="text-left">
+                    <h3 class="text-zinc-100 font-semibold">DELIVERY</h3>
+                    <p class="text-zinc-500">Lorem ipsum dolor sit amet</p>
+                </div>
+                <div class="text-white text-4xl border-4 border-zinc-500 w-16 h-16 rounded-full text-center font-semibold content-center">3</div>
+            </li>
+            <li class="justify-items-start flex items-center gap-3">
+                <div class="text-left">
+                    <h3 class="text-zinc-100 font-semibold">SELECT ITEM</h3>
+                    <p class="text-zinc-500">Lorem ipsum dolor sit amet</p>
+                </div>
+                <div class="text-white text-4xl border-4 border-zinc-500 w-16 h-16 rounded-full text-center font-semibold content-center">2</div>
+            </li>
+            <li class="justify-items-start flex items-center gap-3">
+                <div class="text-left">
+                    <h3 class="text-zinc-100 font-semibold">GOT YOUR ITEM</h3>
+                    <p class="text-zinc-500">Lorem ipsum dolor sit amet</p>
+                </div>
+                <div class="text-white text-4xl border-4 border-zinc-500 w-16 h-16 rounded-full text-center font-semibold content-center">1</div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="w-1/2 mx-auto h-96 flex justify-around mt-8 gap-5">
+    <div class="w-[500px] h-[400px] relative">
+        <img src="{% static 'img/black-car-4k-wnfjwxcbybpwbs08.jpg' %}" alt="black_car" class="brightness-50">
+        <div class="absolute text-left top-8 left-8 text-xl">
+            <h3 class="text-white">INTERIOR</h3>
+            <p class="text-white font-thin">ACCESSORIES</p>
+        </div>
+    </div>
+    <div class="w-[470px] h-[350px] relative">
+        <img src="{% static 'img/top-view-mechanical-supplies-composition.jpg' %}" alt="top_view" class="brightness-50">
+        <div class="absolute text-left top-8 left-8 text-xl">
+            <h3 class="text-white">EXTERIOR</h3>
+            <p class="text-white font-thin">ACCESSORIES</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {% comment %} <div class="text-black">
+        <p>آمار</p>
+        <p>تعداد پست: {% total_posts %}</p>
+        <p>تعداد کامنت: {% total_comments %}
+        </p>
+    </div>
+
+    <div>
+        {% lastest_posts %}
+    </div>
+
+    <div>
+        <a href="{% url 'shop:password_change' %}">تغییر پسورد</a>
+        <a href="{% url 'shop:logout' %}">خروج از حساب</a>
+    </div> {% endcomment %}

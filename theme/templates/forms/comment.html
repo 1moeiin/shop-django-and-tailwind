@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Comment{% endblock %}
+
+{% block content %}
+
+    {% if comment %}
+        <p>کامنت ثبت شد</p>
+        <a href="{{ post.get_absolute_url }}">بازگشت</a>
+    {% endif %}
+
+{% endblock %}
