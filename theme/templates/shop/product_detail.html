@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{{ product.title }}{% endblock %}
+{% load humanize %}
 {% block head %}
     <style>
         section:hover > div:not(:hover){
@@ -17,20 +18,52 @@
         {% endfor %}
     </section>
 
-    <button type="button" class="font-bold mx-12 mb-8 mt-32 bg-transparent transition-all ease-in-out duration-200 p-3 rounded-xl bg-zinc-400 hover:text-white hover:bg-black" id="add-cart">اضافه کردن به سبد خرید</button><br>
+    <div class="grid grid-cols-2 w-11/12 mx-auto mt-12">
+        <div class="w-full">
+            <h1 class="text-3xl font-bold">{{ product.title }}</h1>
+        </div>
 
-    <div class="w-1/3 mx-12">
-        <p>{{ product.description }}</p>
+        <div class="grid grid-cols-2 gap-6 bg-zinc-500 p-12 rounded-xl">
+            <div class="w-full text-2xl font-semibold">
+                <p>موجودی : <span>{{ product.inventory }}</span></p>
+            </div>
+
+            <div class="mr-12">
+                <button type="button" class="font-bold bg-transparent transition-all ease-in-out duration-200 p-3 rounded-xl bg-zinc-400 hover:text-white hover:bg-black" id="add-cart">اضافه کردن به سبد خرید</button>
+            </div>
+    
+            <div class="w-full">
+                <ul class="list-disc text-xl">
+                    {% for f in product.features.all %}
+                        <li>{{ f.name }}: {{ f.value }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+    
+            <div class="mr-14">
+                {% if product.off == 0 %}
+                    <p class="text-2xl text-zinc-700 font-semibold group-hover:text-green-600">{{ product.price|intcomma:0 }} تومان</p>
+                {% elif product.off != 0 %}
+                    <p class="line-through decoration-red-600 decoration-4 m-0 text-2xl font-semibold">{{ post.price|intcomma:0 }} تومان</p>
+                    <p class="m-0 text-xl font-medium group-hover:text-green-600">{{ product.new_price|intcomma:0 }} تومان</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="w-2/3 -mt-40">
+            <p>{{ product.description }}</p>
+        </div>
+
     </div>
 
-    <div class="mt-8">
-        <div class="mr-10">
+    <div class="w-11/12 mx-auto my-12">
+        <div class="mr-10 text-xl">
             {{ comments.count }} کامنت
         </div>
     
         <div>
             {% for cm in comments %}
-            <div  class="bg-zinc-700 text-gray-300 w-1/3 h-40 rounded-2xl my-6 mr-10 flex flex-col gap-5 shadow-xl shadow-gray-800/40">
+            <div  class="bg-zinc-700 text-gray-300 w-1/3 h-40 rounded-2xl my-6 mr-10 flex flex-col gap-5 shadow-xl shadow-gray-800/40 text-xl">
                 <div class="mr-10 mt-3">
                     {{ cm.name }}
                 </div>
@@ -39,7 +72,7 @@
                 </div>
             </div>
             {% empty %}
-                <div class="mr-10">
+                <div class="mr-10 text-xl">
                     کامنتی وجود ندارد!
                 </div>
             {% endfor %}
@@ -68,33 +101,5 @@
             <input type="submit" value="ثبت" class="bg-zinc-800 text-white rounded-lg w-20 hover:shadow-lg hover:shadow-gray-800/50 mr-4 hover:cursor-pointer p-2">
         </form>
     </div>
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        $(document).ready(function(){
-            $('#add-cart').click(function(){
-                var button = $(this);
-                var quantity = document.getElementById('id-quantity').value;
-
-                $.ajax({
-                type: 'POST',
-                url: "{% url 'cart:add_to_cart' product.id %}",
-                data:{
-                    'csrfmiddlewaretoken':'{{ csrf_token }}',
-                        'quantity': quantity,
-                },
-                success: function(data) {
-                    $('#item_count').text(data.item_count);
-                    $('#total_price').text(data.total_price);
-                    if (data.cart_count === true) {
-                        $('#add-cart').attr('disabled', true);
-                        $('#add-cart').text('فاقد موجودی');
-                    }
-                },
-                });
-            });
-        });
-    </script>
 
 {% endblock %}

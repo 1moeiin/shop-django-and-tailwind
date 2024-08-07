@@ -45,6 +45,7 @@ class Post(models.Model):
     description = models.TextField()
     slug = models.SlugField(max_length=100, unique=True)
     inventory = models.PositiveIntegerField(default=0, verbose_name="موجودی")
+    weight = models.PositiveIntegerField(default=0, verbose_name="وزن")
     price = models.PositiveIntegerField(default=0, verbose_name="قیمت")
     off = models.PositiveIntegerField(default=0, verbose_name="تخفیف")
     new_price = models.PositiveIntegerField(default=0, verbose_name="قیمت پس از تخفیف")

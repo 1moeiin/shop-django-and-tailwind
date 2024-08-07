@@ -20,9 +20,11 @@ def products_list(request, category_slug=None):
     category = None
     categories = Category.objects.all()
     products = Post.published.all()
+    
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
+    
     pagination = Paginator(products, 4)
     page_number = request.GET.get('page', 1)
     
