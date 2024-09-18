@@ -1,6 +1,6 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="fa" dir="rtl">
 	<head>
     <title>TAP | {% block title %}{% endblock %}</title>
 		<meta charset="UTF-8">
@@ -8,12 +8,16 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		{% tailwind_css %}
 		{% block head %}{% endblock %}
+		<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 	</head>
-
-	<body class="bg-zinc-300 font-fars">
+	<body class="bg-gradient-to-tr from-blue-950 to-indigo-600 from-65% font-Lalezar">
 		{% include "partials/header.html" %}
 		{% include "partials/navigation.html" %}
 		{% block content %}{% endblock %}
 		{% include "partials/footer.html" %}
+
+
 	</body>
 </html>

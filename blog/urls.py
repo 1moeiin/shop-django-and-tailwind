@@ -24,7 +24,7 @@ urlpatterns = [
     path('__reload__/', include("django_browser_reload.urls")),
     path('', include('shop.urls', namespace="shop")),
     path("__debug__/", include("debug_toolbar.urls")),
-    path('cart/', include('cart.urls', namespace="cart"))
+    path('cart/', include('cart.urls', namespace='cart')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

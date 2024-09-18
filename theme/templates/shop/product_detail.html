@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ product.title }}{% endblock %}
 {% load humanize %}
+{% load static %}
 {% block head %}
     <style>
         section:hover > div:not(:hover){
@@ -10,29 +11,34 @@
 {% endblock %}
 {% block content %}
 
-    <section class="flex justify-evenly gap-y-4 my-4 flex-wrap">
+    <section class="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 m-3 xl:h-72 sm:h-96 h-72">
         {% for img in product.images.all %}
-            <div class="w-80 h-72 rounded-lg overflow-hidden cursor-pointer transition-all ease-in-out delay-200 hover:scale-110 hover:shadow-2xl hover:shadow-zinc-600">
+            <div class="rounded-lg overflow-hidden cursor-pointer transition-all ease-in-out delay-200 hover:scale-110 hover:shadow-2xl hover:shadow-zinc-600">
                 <img src="{{ img.image_file.url }}" alt="{{ img.title }}" class="w-full h-full object-cover aspect-[2/1]">
             </div>
         {% endfor %}
     </section>
 
-    <div class="grid grid-cols-2 w-11/12 mx-auto mt-12">
-        <div class="w-full">
-            <h1 class="text-3xl font-bold">{{ product.title }}</h1>
+    <div class="grid xl:grid-cols-2 grid-cols-1 w-11/12 mx-auto mt-12 xl:gap-0 gap-10">
+        <div class="w-2/3">
+            <h1 class="md:text-3xl text-xl font-bold lg:text-black text-white">{{ product.title }}</h1>
         </div>
 
-        <div class="grid grid-cols-2 gap-6 bg-zinc-500 p-12 rounded-xl">
-            <div class="w-full text-2xl font-semibold">
+        <div class="w-4/5 md:text-xl text-sm lg:text-black text-white lg:mr-12">
+            <p>{{ product.description }}</p>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-6 backdrop-blur-lg p-12 mx-auto rounded-xl shadow-2xl shadow-black lg:text-black text-white">
+            <div class="w-full my-4 md:text-2xl text-lg font-semibold">
                 <p>موجودی : <span>{{ product.inventory }}</span></p>
             </div>
 
-            <div class="mr-12">
-                <button type="button" class="font-bold bg-transparent transition-all ease-in-out duration-200 p-3 rounded-xl bg-zinc-400 hover:text-white hover:bg-black" id="add-cart">اضافه کردن به سبد خرید</button>
+            <div class="bg-gradient-to-tr from-black to-indigo-600 rounded-lg text-white text-center transition-all ease-in-out duration-200 hover:to-orange-500">
+                <button type="button" id="add-cart" class="font-bold my-3 md:p-3 p-1 md:text-base text-sm">اضافه کردن به سبد خرید</button>
             </div>
+
     
-            <div class="w-full">
+            <div class="w-full md:col-span-1 col-span-2">
                 <ul class="list-disc text-xl">
                     {% for f in product.features.all %}
                         <li>{{ f.name }}: {{ f.value }}</li>
@@ -40,30 +46,26 @@
                 </ul>
             </div>
     
-            <div class="mr-14">
+            <div class="mx-auto md:col-span-1 col-span-2">
                 {% if product.off == 0 %}
-                    <p class="text-2xl text-zinc-700 font-semibold group-hover:text-green-600">{{ product.price|intcomma:0 }} تومان</p>
+                    <p class="md:text-3xl text-lg text-green-600 font-semibold group-hover:text-green-600">{{ product.price|intcomma:0 }} تومان</p>
                 {% elif product.off != 0 %}
-                    <p class="line-through decoration-red-600 decoration-4 m-0 text-2xl font-semibold">{{ post.price|intcomma:0 }} تومان</p>
-                    <p class="m-0 text-xl font-medium group-hover:text-green-600">{{ product.new_price|intcomma:0 }} تومان</p>
+                    <p class="line-through decoration-red-600 decoration-4 m-0 md:text-xl text-base font-semibold">{{ post.price|intcomma:0 }} تومان</p>
+                    <p class="md:text-xl text-sm font-medium group-hover:text-green-600">{{ product.new_price|intcomma:0 }} تومان</p>
                 {% endif %}
             </div>
-        </div>
-
-        <div class="w-2/3 -mt-40">
-            <p>{{ product.description }}</p>
         </div>
 
     </div>
 
     <div class="w-11/12 mx-auto my-12">
-        <div class="mr-10 text-xl">
+        <div class="mr-10 text-xl text-white">
             {{ comments.count }} کامنت
         </div>
     
-        <div>
+        <div class="text-white">
             {% for cm in comments %}
-            <div  class="bg-zinc-700 text-gray-300 w-1/3 h-40 rounded-2xl my-6 mr-10 flex flex-col gap-5 shadow-xl shadow-gray-800/40 text-xl">
+            <div  class="bg-zinc-700 text-white w-1/3 h-40 rounded-2xl my-6 mr-10 flex flex-col gap-5 shadow-xl shadow-gray-800/40 text-xl">
                 <div class="mr-10 mt-3">
                     {{ cm.name }}
                 </div>
@@ -78,28 +80,46 @@
             {% endfor %}
         </div>
     
-        <form method="post" action="{% url 'shop:product_comment' product.id  product.slug %}" class="flex flex-col w-1/2 bg-zinc-400 mt-4 mb-12 mr-8 gap-6 shadow-xl shadow-gray-900/30 p-12 rounded-lg">
+        <form method="post" action="{% url 'shop:product_comment' product.id  product.slug %}" class="flex flex-col lg:w-1/2 w-11/12 backdrop-blur-sm mt-4 mb-12 md:mr-8 mr-0 gap-5 shadow-2xl shadow-black md:p-12 p-4 rounded-lg">
             {% csrf_token %}
-            <div class="flex items-center mr-14">
-                <label for="id_name" class="rounded-r-full bg-zinc-800 text-white p-2">
+            <div class="flex items-center md:mr-14 mr-4">
+                <label for="id_name" class="rounded-r-full bg-gradient-to-br from-indigo-600 to-blue-500 from-40% text-white p-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                     </svg>  
                 </label>
-                <input type="text" name="name" maxlength="100" required id="id_name" placeholder="نام" class="rounded-l-full bg-zinc-700 border-none placeholder-gray-300 focus:ring-0">
+                <input type="text" name="name" maxlength="100" required id="id_name" placeholder="نام" class="rounded-l-full w-full bg-zinc-200 border-none placeholder-gray-500 focus:ring-0">
             </div>
                 
             <div class="flex items-center">
-                <label for="id_body" class="rounded-r-full bg-zinc-800 text-white p-9">
+                <label for="id_body" class="rounded-r-full bg-gradient-to-br from-indigo-600 to-blue-500 from-40% text-white md:p-9 p-4">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                     </svg> 
                 </label>
-                <textarea name="body" cols="40" rows="10" required="" id="id_body" placeholder="دیدگاه" class="w-full h-24 rounded-l-full bg-zinc-700 border-none placeholder-gray-300 focus:ring-0"></textarea>
+                <textarea name="body" cols="40" rows="10" required="" id="id_body" placeholder="دیدگاه" class="w-full md:h-24 h-14 rounded-l-full bg-zinc-200 border-none placeholder-gray-500 focus:ring-0"></textarea>
             </div>
     
-            <input type="submit" value="ثبت" class="bg-zinc-800 text-white rounded-lg w-20 hover:shadow-lg hover:shadow-gray-800/50 mr-4 hover:cursor-pointer p-2">
+            <input type="submit" value="ثبت" class="bg-gradient-to-br from-indigo-600 to-blue-500 from-40% text-white rounded-lg w-20 hover:shadow-lg hover:shadow-gray-800/50 mr-4 hover:cursor-pointer p-2">
         </form>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function(){
+            $('#add-cart').click(function(){
+                var button = $(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'cart:add_to_cart' product.id %}",
+                    data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                    success: function(data) {
+                        $('#item_count').text(data.item_count);
+                    },
+                });
+            });
+        });
+    </script>
 
 {% endblock %}

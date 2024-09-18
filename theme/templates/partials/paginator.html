@@ -12,7 +12,7 @@
 
     {% for num in page.paginator.page_range %}
         {% if page.number == num %}
-            <a href="?page={{ num }}" class="bg-zinc-500 flex items-center p-2 border-2 border-zinc-700 rounded-lg text-zinc-900">{{ num }}</a>
+            <a href="?page={{ num }}" class="bg-gradient-to-br from-indigo-600 to-blue-500 from-40% flex items-center p-2 border-2 border-zinc-700 rounded-lg text-zinc-900">{{ num }}</a>
         {% elif num > page.number|add:'-3' and num < page.number|add:'3' %}
             <a href="?page={{ num }}" class="bg-black flex items-center p-3 rounded-lg text-zinc-400 hover:bg-zinc-500 hover:text-black transition-all duration-500">{{ num }}</a>
         {% endif %}

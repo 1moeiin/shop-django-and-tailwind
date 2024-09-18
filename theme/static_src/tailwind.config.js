@@ -46,6 +46,7 @@ module.exports = {
         fontFamily: {
             'tuf': ['PT Sans Narrow'],
             'fars': ['IBM Plex Sans Arabic'],
+            'Lalezar': ['Lalezar', 'IBM Plex Sans Arabic'],
         }
     },
     plugins: [

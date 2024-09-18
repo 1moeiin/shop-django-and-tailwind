@@ -8,6 +8,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 
+
 # Create your views here.
 
 def main(request):
@@ -17,6 +18,7 @@ def disable_account(request):
     return render(request, "shop/disabel_account.html")
 
 def products_list(request, category_slug=None):
+    
     category = None
     categories = Category.objects.all()
     products = Post.published.all()
@@ -34,12 +36,13 @@ def products_list(request, category_slug=None):
         products = pagination.page(pagination.num_pages)
     except PageNotAnInteger:
         products = pagination.page(1)
-    
+
     context = {
         'products': products,
         'category': category,
         'categories': categories,
     }
+    print('cart:', request.session.get('cart'))
     
     return render(request, "shop/product_list.html", context)
 
@@ -153,3 +156,7 @@ def register(request):
         form = UserRegister()
     
     return render(request, 'registration/register.html', {'form': form})
+
+
+def add_to_cart(request):
+    return redirect("/")

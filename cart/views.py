@@ -4,31 +4,23 @@ from shop.models import Post
 from .cart import Cart
 from django.http import JsonResponse
 
+
 # Create your views here.
 
 @require_POST
 def add_to_cart(request, product_id):
+    
     try:
-        quantity = request.POST['quantity']
         cart = Cart(request)
         product = get_object_or_404(Post, id=product_id)
+        cart.add(product)
 
-        for _ in range(int(quantity)):
-            cart.add(product)
-
-        cart_quantity = cart.cart[str(product_id)]['quantity']
-
-        if product.inventory == cart_quantity:
-            count = True
-        else:
-            count = False
-        
         context = {
             'item_count': len(cart),
             'total_price': cart.get_total_price(),
-            'cart_count': count,
         }
         return JsonResponse(context)
+    
     except:
         return JsonResponse({"error": "Invalid request."})
 
@@ -36,3 +28,53 @@ def add_to_cart(request, product_id):
 def cart_detail(request):
     cart = Cart(request)
     return render(request, 'cart/detail.html', {'cart': cart})
+
+
+@require_POST
+def update_quantity(request):
+    
+    item_id = request.POST.get('item_id')
+    action = request.POST.get('action')
+    
+    try:
+        product = get_object_or_404(Post, id=item_id)
+        cart = Cart(request)
+        if action == 'add':
+            cart.add(product)
+        elif action == 'decrease':
+            cart.decrease(product)
+
+        context = {
+            'item_count': len(cart),
+            'total_price': cart.get_total_price(),
+            'quantity': cart.cart[item_id]['quantity'],
+            'post_price': cart.get_post_price(),
+            'total': cart.cart[item_id]['quantity'] * cart.cart[item_id]['price'],
+            'final_price': cart.get_final_price(),
+            'success': True,
+        }
+        return JsonResponse(context)
+    except:
+        return JsonResponse({'success': False, 'error': 'Item not found!'})
+
+
+@require_POST
+def remove_item(request):
+    
+    item_id = request.POST.get('item_id')
+    print(item_id)
+    
+    try:
+        product = get_object_or_404(Post, id=item_id)
+        cart = Cart(request)
+        cart.remove(product)
+
+        context = {
+            'item_count': len(cart),
+            'total': cart.get_total_price(),
+            'final_price': cart.get_final_price(),
+            'success': True,
+        }
+        return JsonResponse(context)
+    except:
+        return JsonResponse({'success': False, 'error': 'Item not found!'})

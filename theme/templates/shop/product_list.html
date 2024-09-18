@@ -1,62 +1,66 @@
 {% extends "base.html" %}
 {% block title %}Products{% endblock %}
+{% load static %}
 {% load humanize %}
 {% block content %}
-    <div class="w-full h-36 flex items-center justify-center">
+<div>
+    <div class="w-full h-36 flex items-center justify-center z-10 text-white">
         {% if category %}
-            <h2 class="text-5xl font-medium animate-fade-down animate-once animate-duration-1000 animate-ease-linear">لیست محصولات بر اساس {{ category.name }}</h2>
+            <h2 class="md:text-5xl text-2xl font-medium animate-fade-down animate-once animate-duration-1000 animate-ease-linear">لیست محصولات بر اساس {{ category.name }}</h2>
         {% else %}
-            <h2 class="text-5xl font-medium animate-fade-down animate-once animate-duration-1000 animate-ease-linear">لیست محصولات</h2>
+            <h2 class="md:text-5xl text-3xl font-medium animate-fade-down animate-once animate-duration-1000 animate-ease-linear">لیست محصولات</h2>
         {% endif %}
     </div>
-    <div class="w-full flex flex-col">
-        <aside class="w-2/3 mt-10 mr-8">
+    <div class="w-full flex flex-col z-20">
+        <aside class="w-2/3 md:mt-10 md:mr-4 sm:mr-2 mr-2">
             <div>
-                <ul class="flex gap-8 place-items-center">
-                    <li class="text-xl font-semibold">دسته بندی براساس :</li>
-                    <li class="p-3 font-semibold bg-zinc-400 text-black rounded-xl hover:bg-black hover:text-zinc-300"><a href="{% url 'shop:products_list' %}">همه</a></li>
+                <ul class="flex md:gap-8 gap-4 place-items-center">
+                    <li class="text-xl text-white font-semibold lg:block hidden">دسته بندی براساس :</li>
+                    <li class="md:p-3 p-2 md:text-base text-xs font-semibold bg-gradient-to-br from-indigo-600 to-blue-500 from-40% text-black rounded-xl hover:bg-black hover:text-zinc-300"><a href="{% url 'shop:products_list' %}">همه</a></li>
                     {% for ct in categories %}
-                    <li class="p-3 font-semibold bg-zinc-400 text-black rounded-xl hover:bg-black hover:text-zinc-300"><a href="{{ ct.get_absolute_url }}">{{ ct.name }}</a></li>
+                    <li class="md:p-3 p-2 md:text-base text-xs font-semibold bg-gradient-to-br from-indigo-600 to-blue-500 from-40% text-black rounded-xl hover:bg-black hover:text-zinc-300"><a href="{{ ct.get_absolute_url }}">{{ ct.name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
         </aside>
-        <section class="grid grid-cols-4 gap-8 w-3/4 mt-12 mx-auto">
+        <section class="grid 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 md:gap-8 gap-0 md:w-4/5 w-full mt-12 mx-auto">
             {% for post in products %}
                 {% if post.inventory == 0 %}
                     <a href="{{ post.get_absolute_url }}">
-                        <div class="group flex flex-col transition-all shadow-lg shadow-gray-900/80 hover:shadow-2xl hover:shadow-black bg-zinc-200 rounded-xl w-11/12 h-[500px] justify-between animate-fade-down animate-once animate-duration-1000 animate-ease-linear">
+                        <div class="group flex flex-col transition-all shadow-lg shadow-gray-900/80 hover:shadow-2xl hover:shadow-black bg-zinc-200 rounded-xl w-11/12 h-96 justify-between animate-fade-down animate-once animate-duration-1000 animate-ease-linear">
                             <div>
                                 <img src="{{ post.images.first.image_file.url }}" alt="{{ post.images.first.title }}" class="object-cover w-80 mx-auto">
                             </div>
                             <div class="text-center mb-16">
                                 <h3 class="font-bold text-2xl group-hover:text-gray-700">{{ post.title }}</h3>
-                                <h3 class="text-6xl text-zinc-700">ناموجود</h3>
+                                <h3 class="md:text-6xl text-2xl text-zinc-700">ناموجود</h3>
                             </div>
                         </div>
                     </a>
                 {% else %}
-                <a href="{{ post.get_absolute_url }}">
-                    <div class="group flex flex-col transition-all shadow-lg shadow-gray-900/80 hover:shadow-2xl hover:shadow-black bg-zinc-200 rounded-xl w-11/12 h-[500px] justify-between animate-fade-down animate-once animate-duration-1000 animate-ease-linear">
+                <div class="productContainer">
+                    <div class="group flex md:flex-col flex-row transition-all shadow-lg shadow-gray-900/80 hover:shadow-2xl hover:shadow-black bg-zinc-200 rounded-xl w-full md:h-96 h-44 justify-around items-center animate-fade-down animate-once animate-duration-1000 animate-ease-linear">
                         <div class="group-hover:transition-all group-hover:duration-300 group-hover:ease-in-out rotate-0 group-hover:rotate-12">
-                            <img src="{{ post.images.first.image_file.url }}" alt="{{ post.images.first.title }}" class="object-cover w-64 h-60 mx-auto">
+                            <img src="{{ post.images.first.image_file.url }}" alt="{{ post.images.first.title }}" class="object-cover lg:w-64 sm:w-52 w-44 mx-auto">
                         </div>
-                        <div class="text-center mb-2">
-                            <h3 class="font-bold text-2xl group-hover:text-gray-700">{{ post.title }}</h3>
+                        <div class="text-center mb-2 ml-2">
+                            <a href="{{ post.get_absolute_url }}" class="font-bold md:text-2xl text-lg group-hover:text-gray-700">{{ post.title }}</a>
                             {% if post.off == 0 %}
-                                <p class="my-4 mx-0 text-2xl text-zinc-700 font-semibold group-hover:text-green-600">{{ post.price|intcomma:0 }} تومان</p>
+                                <p class="my-4 mx-0 md:text-2xl text-base text-zinc-700 font-semibold group-hover:text-green-600">{{ post.price|intcomma:0 }} تومان</p>
                             {% elif post.off != 0 %}
-                                <p class="line-through decoration-red-600 decoration-4 m-0 text-2xl font-semibold">{{ post.price|intcomma:0 }} تومان</p>
-                                <p class="m-0 text-xl font-medium group-hover:text-green-600">{{ post.new_price|intcomma:0 }} تومان</p>
+                                <p class="line-through decoration-red-600 decoration-4 text-2xl font-semibold">{{ post.price|intcomma:0 }} تومان</p>
+                                <p class="text-xl font-medium group-hover:text-green-600">{{ post.new_price|intcomma:0 }} تومان</p>
                             {% endif %}
-                            <button type="button" class="font-bold my-4 bg-transparent transition-all ease-in-out duration-200 p-3 rounded-xl bg-zinc-400 group-hover:text-white group-hover:bg-black" id="add-cart">اضافه کردن به سبد خرید</button>
+                            
                         </div>
                     </div>
-                </a>
+                </div>
                 {% endif %}
             {% endfor %}
-            </section>
+        </section>
     </div>
+</div>
+
 
     {% include 'partials/paginator.html' with page=products %}
 {% endblock %}

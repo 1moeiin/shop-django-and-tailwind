@@ -5,36 +5,36 @@
 
     <div class="w-full h-screen relative flex justify-center"> 
         <div class="absolute w-full">
-            <img src="{% static 'img/black-car-4k-wnfjwxcbybpwbs08.jpg' %}" alt="wall">
+            <img src="{% static 'img/0001-1154487824666476399.png' %}" alt="wall" class="w-full h-screen object-cover">
         </div>
-        <div class="w-1/4 h-[500px] rounded-xl bg-zinc-500/30 absolute mt-64 backdrop-blur-sm">
-            <form method="post" class="w-full flex flex-col items-center text-white gap-12 mt-16">
+        <div class="2xl:w-1/4 xl:w-2/6 md:w-1/2 w-4/5 lg:h-[500px] md:h-[450px] rounded-xl bg-zinc-500/30 absolute 2xl:mt-64 xl:mt-40 md:mt-48 mt-32 backdrop-blur-sm">
+            <form method="post" class="w-full flex flex-col items-center text-white lg:gap-12 gap-8 lg:mt-16 mt-8">
                 {% csrf_token %}
                 <input type="hidden" name="next" vlaue="{{ next }}">
-                <div class="flex items-center">
-                    <label for="id_username" class="rounded-r-full bg-zinc-800 p-3 shadow-lg shadow-zinc-700/50">
+                <div class="flex items-center mx-1">
+                    <label for="id_username" class="rounded-r-full bg-gradient-to-br from-blue-600 to-orange-500 md:p-3 p-1 shadow-lg shadow-zinc-700/50">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                         </svg>                          
                     </label>
-                    <input type="text" name="username" maxlength="30" required="" id="id_username" class="rounded-l-full w-4/5 bg-zinc-700 border-none p-4 placeholder-gray-300 focus:ring-0 shadow-lg shadow-zinc-700/50" placeholder="نام کاربری">
+                    <input type="text" name="username" maxlength="30" required="" id="id_username" class="rounded-l-full w-4/5 bg-zinc-800 border-none md:p-4 p-2 placeholder-gray-300 focus:ring-0 shadow-lg shadow-zinc-700/50" placeholder="نام کاربری">
                 </div>
-                <div class="flex items-center">
-                    <label for="id_password" class="rounded-r-full bg-zinc-800 p-3 shadow-lg shadow-zinc-700/50">
+                <div class="flex items-center mx-1">
+                    <label for="id_password" class="rounded-r-full bg-gradient-to-br from-blue-600 to-orange-500 md:p-3 p-1 shadow-lg shadow-zinc-700/50">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" />
                         </svg>                          
                     </label>
-                    <input type="password" name="password" maxlength="30" required="" id="id_password" class="rounded-l-full w-4/5 bg-zinc-700 border-none p-4 placeholder-gray-300 focus:ring-0 shadow-lg shadow-zinc-700/50" placeholder="رمز عبور">
+                    <input type="password" name="password" maxlength="30" required="" id="id_password" class="rounded-l-full w-4/5 bg-zinc-800 border-none md:p-4 p-2 placeholder-gray-300 focus:ring-0 shadow-lg shadow-zinc-700/50" placeholder="رمز عبور">
                 </div>
-                <div class="w-full mr-24 text-zinc-400">
+                <div class="w-full md:mr-24 mr-10 text-zinc-300">
                     <a href="{% url 'shop:password_reset' %}" class="hover:text-zinc-100">آیا رمزعبور خود را فراموش کرده اید؟</a>
                 </div>
                 <div class="w-full mr-24 flex gap-2">
                     <p class="text-zinc-100">حساب کاربری ندارید؟</p>
-                    <a href="{% url 'shop:register' %}" class="text-zinc-400 hover:text-zinc-100">ثبت نام کنید</a>
+                    <a href="{% url 'shop:register' %}" class="text-zinc-300 hover:text-zinc-100">ثبت نام کنید</a>
                 </div>
-                <input type="submit" value="ورود" class="bg-zinc-800 p-4 rounded-lg w-20 hover:bg-zinc-900 hover:cursor-pointer hover:shadow-xl hover:shadow-zinc-500/50">
+                <input type="submit" value="ورود" class="bg-zinc-800 md:p-4 p-2 rounded-lg w-20 hover:bg-zinc-900 hover:cursor-pointer hover:shadow-xl hover:shadow-zinc-500/50">
             </form>
         </div>
     </div>

@@ -3,10 +3,9 @@
 {% block title %}Search{% endblock %}
 {% block content %}
     {% if query %}
-        <p>نتایج جستجو برای {{ query }}</p>
+        <p class="block text-4xl text-white mx-auto my-3">نتایج جستجو برای {{ query }}</p>
         {% for post in results %}
-            <br>
-            <a href="{{ post.get_absolute_url }}">{{ post }}</a>
+            <a href="{{ post.get_absolute_url }}" class="w-96 h-96 bg-red-700">{{ post }}</a>
         {% endfor %}
     {% endif %}
 {% endblock %}

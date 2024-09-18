@@ -1,20 +1,128 @@
 {% extends "base.html" %}
 {% block title %}سبد خرید{% endblock %}
 {% load static %}
+{% load humanize %}
 {% block content %}
 
-    <div class="w-full h-36 flex items-center justify-center">
-        <h2 class="text-5xl font-medium animate-fade-down animate-once animate-duration-1000 animate-ease-linear">سبد خرید</h2>
-    </div>
-
-    <div class="w-full h-96 bg-zinc-700 flex gap-12">
-        {% for item in cart %}
-            <a href="{% url 'shop:product_detail' item.product.id item.product.slug %}">
-                <img width="100" height="100" alt="" class="img-fluid" src="{{ item.product.images.first.file.url }}">
-            </a>
-        {% endfor %}
-    </div>
-
+    <div class="w-full relative h-screen">
+        <div class="absolute w-full">
+            <img src="#" alt="cart-back">
+        </div>
+        <div class="w-full h-36 flex items-center justify-center">
+            <h2 class="text-5xl font-medium animate-fade-down animate-once animate-duration-1000 animate-ease-linear text-white">سبد خرید</h2>
+        </div>
     
+        <div class="w-full flex flex-col gap-12 mb-12 mx-auto text-white">
+            {% if cart %}
+                <div class="flex w-2/3 mx-auto justify-between">
+                    <div class="flex flex-col w-2/3">
+                        {% for item in cart %}
+                            <div class="flex rounded-xl shadow-xl" id="product-item" data-item-id="{{ item.product.id }}">
+                                <img src="{{ item.product.images.first.image_file.url }}" alt="{{ item.product.title }}" class="w-72 h-72 object-contain mr-4">
+                                <div class="mt-12 mr-12 flex flex-col gap-3">
+                                    <a href="{% url 'shop:product_details' item.product.id item.product.slug %}">{{ item.product.title }}</a>
+                                    <p>قیمت هر محصول: <span class="font-semibold">{{ item.product.new_price|intcomma:0 }}</span> تومان</p>
+                                    <p>مجموع: <span class="font-semibold text-green-700 mx-1" id="item-total-{{ item.product.id }}">{{ item.total|intcomma:0 }}</span> تومان</p>
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex gap-4 px-4 py-2 border-2 rounded-xl border-zinc-800">
+                                            <input type="button" id="quantity-add" class="cursor-pointer" value="+">
+                                            <span id="item-quantity-{{ item.product.id }}">{{ item.quantity }}</span>
+                                            <input type="button" id="quantity-decrease" class="cursor-pointer" value="-">
+                                        </div>
+                                        <div>
+                                            <span title="حذف آیتم" id="quantity-remove" class="cursor-pointer">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                </svg>                                              
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="w-96 h-96 rounded-xl shadow-xl">
+                        <p>قیمت کل: <span class="font-semibold" id="item-total-price">{{ cart.get_total_price|intcomma:0 }}</span> تومان</p>
+                        <p>هزینه ارسال: <span class="font-semibold" id="item-post-price">{{ cart.get_post_price|intcomma:0 }}</span> تومان</p>
+                        <p>مبلغ قابل پرداخت: <span class="font-semibold" id="item-final-price">{{ cart.get_final_price|intcomma:0 }}</span> تومان</p>
+                        <div>
+                            <div><a href="#">نهایی کردن خرید</a></div>
+                            <div><a href="{% url 'shop:products_list' %}">برگشت به لیست محصولات</a></div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                    <div class="w-full">
+                        <p class="w-1/2 h-44 mx-auto text-center">سبد خرید شما خالی میباشد!</p>
+                    </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function(){
+
+            $('#quantity-add').on('click', function(){
+                updateQuantity($(this).closest('#product-item').data('item-id'), 'add');
+            });
+
+            $('#quantity-decrease').on('click', function(){
+                updateQuantity($(this).closest('#product-item').data('item-id'), 'decrease');
+            });
+
+            $('#quantity-remove').on('click', function(){
+                removeItem($(this).closest('#product-item').data('item-id'));
+            });
+
+
+            function updateQuantity(itemId, action){
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'cart:update_quantity' %}",
+                    data: {
+                        'item_id': itemId,
+                        'action': action,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function(response){
+                        if(response.success){
+                            $('#item_count').text(response.item_count);
+                            $('#item-quantity-' + itemId).text(response.quantity);
+                            $('#item-total-' + itemId).text(response.total);
+                            $('#item-total-price').text(response.total);
+                            $('#item-final-price').text(response.final_price);
+                            $('#item-post-price').text(response.post_price);
+                        } else {
+                            alert('Error updating quantity!');
+                        }
+                    }
+                });
+            }
+
+            function removeItem(itemId){
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'cart:remove_item' %}",
+                    data: {
+                        'item_id': itemId,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function(response){
+                        if(response.success){
+                            $('#item_count').text(response.item_count);
+                            $('#item-total-' + itemId).text(response.total);
+                            $('#item-total-price').text(response.total);
+                            $('#item-final-price').text(response.final_price);
+                            $('#product-item[data-item-id=${itemId}]').remove();
+                        } else {
+                            alert('Error updating quantity!');
+                        }
+                    }
+                });
+            }
+
+        })
+    </script>
 
 {% endblock %}
